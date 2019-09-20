@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Novos Lançamentos</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <p>
+    <!-- sintaxe para referenciar a classe -->
+    <input type="text" name="value" [(ngModel)]="entry.value">
+  </p>
+
+  <p>
+    <select name="categoria" [(ngModel)]="entry.category"></select>
+  </p>
+
+  <p>
+    <select name="category">
+      <option value="1">Alimentação</option>
+      <option value="2">Lazer</option>
+    </select>
+  </p>
+
+  <p>
+    <button type="submit" (click)="submitForm()">Confirmar</button>
+    <button (click)="goBack()">Cancelar</button>
+  </p>
+
+</ion-content>
