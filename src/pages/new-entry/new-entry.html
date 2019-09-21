@@ -7,15 +7,16 @@
 <ion-content padding>
   <p>
     <!-- sintaxe para referenciar a classe -->
-    <input type="text" name="value" [(ngModel)]="entry.value">
+    <input
+      type="number"
+      name="value"
+      placeholder="Digite um valor"
+      [(ngModel)]="entry.value"
+    />
   </p>
 
   <p>
-    <select name="categoria" [(ngModel)]="entry.category"></select>
-  </p>
-
-  <p>
-    <select name="category">
+    <select name="category" [(ngModel)]="entry.category">
       <option value="1">Alimentação</option>
       <option value="2">Lazer</option>
     </select>
@@ -25,5 +26,4 @@
     <button type="submit" (click)="submitForm()">Confirmar</button>
     <button (click)="goBack()">Cancelar</button>
   </p>
-
 </ion-content>

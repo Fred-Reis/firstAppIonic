@@ -1,22 +1,19 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { NewEntryPage } from '../new-entry/new-entry';
+import { Component } from "@angular/core";
+import { NavController } from "ionic-angular";
+
+import { NewEntryPage } from "../new-entry/new-entry";
 
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html'
+  selector: "page-home",
+  templateUrl: "home.html"
 })
 export class HomePage {
-
-  constructor(public navCtrl: NavController) {
-
-  }
+  constructor(public navCtrl: NavController) {}
 
   // função em ts
   addEntry() {
     console.log("Adicionar nova entrada");
-    // cria navegação entre paginas
-    this.navCtrl.push(NewEntryPage)
+    // cria navegação entre paginas "push"
+    this.navCtrl.push(NewEntryPage);
   }
-
 }
