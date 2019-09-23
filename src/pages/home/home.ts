@@ -16,4 +16,20 @@ export class HomePage {
     // cria navegação entre paginas "push"
     this.navCtrl.push(NewEntryPage);
   }
+
+  // exeDebbug() {
+  //   console.log("Debbug Mode");
+
+  //   let res = this.soma();
+
+  //   console.log(`O valor da soma ${res}`);
+  // }
+
+  // soma() {
+  //   let valor = 0;
+  //   valor += 1;
+  //   valor += 10;
+
+  //   return valor;
+  // }
 }
