@@ -17,4 +17,7 @@ export class HomePage {
     this.navCtrl.push(NewEntryPage);
   }
 
+  testDb() {
+    console.log("teste DB");
+  }
 }
