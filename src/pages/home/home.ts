@@ -12,7 +12,7 @@ import { SQLite, SQLiteObject } from "@ionic-native/sqlite";
 })
 export class HomePage {
   // precisa adicionar no constructor de forma public o modulo que sera chamado dentro da classe
-  constructor(public navCtrl: NavController, public sqlite: SQLite) {}
+  constructor(public navCtrl: NavController, public sqlite: SQLite) { }
 
   // função em ts
   addEntry() {
@@ -36,48 +36,82 @@ export class HomePage {
         console.log("DB criado");
 
         // comando sql pra criar a tabela
-        db.sqlBatch([
-          [
-            "CREATE TABLE IF NOT EXISTS entries (id INTEGER PRIMARY KEY AUTOINCREMENT, amount DECIMAL, description TEXT)"
-          ]
-        ])
+        this.createTable(db)
           .then(() => {
             console.log("tabelas criadas");
 
             // insere um valor na tabela
-            const value = 100.2;
+            const value = 10.2;
             const description = "Alimentação";
 
-            const sqlInsert =
-              "INSERT INTO entries (amount, description) VALUES (?, ?)";
-            const datainsert = [value, description];
-
-            db.executeSql(sqlInsert, datainsert)
+            this.insert(db, value, description)
               .then(() => {
                 console.log("valores inseridos");
 
-                const sql = "SELECT amount, description FROM entries;";
-                const data = [];
+                this.select(db)
+                  .then((values: any) => {
+                    console.log(values.rows.length);
 
-                db.executeSql(sql, data).then((values: any) => {
-                  console.log(values.rows.length);
+                    for (var i = 0; i < values.rows.length; i++) {
+                      console.log(JSON.stringify(values.rows.item(i)));
+                    }
 
-                  for (var i = 0; i < values.rows.length; i++) {
-                    console.log(JSON.stringify(values.rows.item(i)));
-                  }
-                });
+                    this.update(999, 'alterado', 5, db)
+                      .then(() => {
+
+                        this.select(db)
+                          .then((values: any) => {
+
+                            console.log(values.rows.length);
+
+                            for (var i = 0; i < values.rows.length; i++) {
+                              console.log(JSON.stringify(values.rows.item(i)));
+                            }
+                          });
+                      })
+                  });
               })
-              .catch(e => {
-                console.error("erro ao inserir valores no DB", e);
-              });
           })
-          .catch(e => {
-            console.error("erro ao executar comando sql", e);
-          });
       })
       .catch(e => {
         // promises
         console.error("erro ao criar DB", e);
       });
+  }
+  createTable(db) {
+    console.log("DB criado");
+
+    // comando sql pra criar a tabela
+    return db.sqlBatch([
+
+      "CREATE TABLE IF NOT EXISTS entries (id INTEGER PRIMARY KEY AUTOINCREMENT, amount DECIMAL, description TEXT)"
+
+    ])
+      .catch(e => console.error('erro ao criar a tabela', JSON.stringify(e)))
+  }
+
+  insert(db, amount, description) {
+    const sql = "INSERT INTO entries (amount, description) VALUES (?, ?)";
+    const data = [amount, description];
+
+    return db.executeSql(sql, data)
+      .catch(e => console.error('erro ao inserir na tabela', JSON.stringify(e)))
+
+  }
+
+  update(db, amount, id, description) {
+    const sql = "UPDATE entries SET amount = ?, description = ? WHERE id = ?"
+    const data = [amount, description, id]
+
+    return db.executeSql(sql, data)
+      .catch(e => console.error('erro ao inserir na tabela', JSON.stringify(e)))
+  }
+
+  select(db) {
+    const sql = "SELECT id, amount, description FROM entries;";
+    const data = [];
+
+    return db.executeSql(sql, data)
+      .catch(e => console.error('erro ao buscar dados da tabela', JSON.stringify(e)))
   }
 }
